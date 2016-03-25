@@ -1,0 +1,10 @@
+/Users/aglassman/workspace/meetup/cloud-examples/slack-integrations-core/src/main/java/org/gmjm/slack/core/hook/HookRequestHttpsUrlConnectionImpl.java
+/Users/aglassman/workspace/meetup/cloud-examples/slack-integrations-core/src/main/java/org/gmjm/slack/core/hook/HookResponseFactory.java
+/Users/aglassman/workspace/meetup/cloud-examples/slack-integrations-core/src/main/java/org/gmjm/slack/core/model/SlackRequestFactory.java
+/Users/aglassman/workspace/meetup/cloud-examples/slack-integrations-core/src/main/java/org/gmjm/slack/core/model/SlackCommandMapImpl.java
+/Users/aglassman/workspace/meetup/cloud-examples/slack-integrations-core/src/main/java/org/gmjm/slack/core/message/AttachmentBuilderJsonImpl.java
+/Users/aglassman/workspace/meetup/cloud-examples/slack-integrations-core/src/main/java/org/gmjm/slack/core/message/JsonBuilder.java
+/Users/aglassman/workspace/meetup/cloud-examples/slack-integrations-core/src/main/java/org/gmjm/slack/core/model/SlackRequestFactoryMapImpl.java
+/Users/aglassman/workspace/meetup/cloud-examples/slack-integrations-core/src/main/java/org/gmjm/slack/core/message/CleanChannelName.java
+/Users/aglassman/workspace/meetup/cloud-examples/slack-integrations-core/src/main/java/org/gmjm/slack/core/message/SlackMessageBuilderJsonImpl.java
+/Users/aglassman/workspace/meetup/cloud-examples/slack-integrations-core/src/main/java/org/gmjm/slack/core/message/BuilderBackingMap.java

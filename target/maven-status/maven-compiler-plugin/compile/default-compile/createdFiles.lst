@@ -1,0 +1,12 @@
+org/gmjm/slack/core/model/SlackRequestFactory.class
+org/gmjm/slack/core/message/AttachmentBuilderJsonImpl.class
+org/gmjm/slack/core/message/BuilderBackingMap.class
+org/gmjm/slack/core/message/CleanChannelName.class
+org/gmjm/slack/core/hook/HookResponseFactory$2.class
+org/gmjm/slack/core/message/JsonBuilder.class
+org/gmjm/slack/core/hook/HookResponseFactory.class
+org/gmjm/slack/core/message/SlackMessageBuilderJsonImpl.class
+org/gmjm/slack/core/model/SlackRequestFactoryMapImpl.class
+org/gmjm/slack/core/hook/HookRequestHttpsUrlConnectionImpl.class
+org/gmjm/slack/core/hook/HookResponseFactory$1.class
+org/gmjm/slack/core/model/SlackCommandMapImpl.class
