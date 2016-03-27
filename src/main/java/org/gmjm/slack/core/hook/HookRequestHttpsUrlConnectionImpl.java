@@ -11,7 +11,7 @@ import org.gmjm.slack.api.hook.HookResponse;
 
 
 
-public class HookRequestHttpsUrlConnectionImpl implements HookRequest
+class HookRequestHttpsUrlConnectionImpl implements HookRequest
 {
 
 	private String slackHookUrl;
@@ -23,7 +23,7 @@ public class HookRequestHttpsUrlConnectionImpl implements HookRequest
 	}
 
 	@Override
-	public HookResponse submitMessage(String string) {
+	public HookResponse send(String string) {
 		try
 		{
 			URL url = new URL(slackHookUrl);

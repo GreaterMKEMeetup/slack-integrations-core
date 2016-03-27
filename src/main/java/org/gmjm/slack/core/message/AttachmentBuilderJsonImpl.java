@@ -2,7 +2,7 @@ package org.gmjm.slack.core.message;
 
 import org.gmjm.slack.api.message.AttachmentBuilder;
 
-public class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
+class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 {
 
 	public AttachmentBuilderJsonImpl() {

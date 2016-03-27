@@ -8,7 +8,7 @@ import org.gmjm.slack.api.message.AttachmentBuilder;
 import org.gmjm.slack.api.message.ChannelName;
 import org.gmjm.slack.api.message.SlackMessageBuilder;
 
-public class SlackMessageBuilderJsonImpl extends JsonBuilder implements SlackMessageBuilder
+class SlackMessageBuilderJsonImpl extends JsonBuilder implements SlackMessageBuilder
 {
 
 	List<Map<String,Object>> attachments = new ArrayList<>();

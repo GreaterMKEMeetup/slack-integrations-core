@@ -18,6 +18,14 @@ public class SlackCommandMapImpl implements SlackCommand
 		return get("text");
 	}
 
+
+	@Override
+	public String getCommand()
+	{
+		return get("command");
+	}
+
+
 	@Override
 	public String getUserName() {
 		return get("user_name");

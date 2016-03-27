@@ -8,7 +8,7 @@ import java.util.Set;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JsonBuilder implements BuilderBackingMap
+class JsonBuilder implements BuilderBackingMap
 {
 	private ObjectMapper om = new ObjectMapper();
 
