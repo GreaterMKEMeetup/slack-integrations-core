@@ -1,0 +1,27 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+group = gradle.projectGroupId
+version = gradle.projectVersion
+
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.18'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
+    compile 'commons-io:commons-io:2.4'
+    compile 'org.gmjm:slack-integrations-api:1.0-SNAPSHOT'
+
+    testCompile 'org.testng:testng:6.9.10'
+}
+
+build.dependsOn install
