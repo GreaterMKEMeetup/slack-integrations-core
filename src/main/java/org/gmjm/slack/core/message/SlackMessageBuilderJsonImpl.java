@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.gmjm.slack.api.message.AttachmentBuilder;
-import org.gmjm.slack.api.message.ChannelName;
 import org.gmjm.slack.api.message.SlackMessageBuilder;
 
 class SlackMessageBuilderJsonImpl extends JsonBuilder implements SlackMessageBuilder
@@ -34,7 +33,7 @@ class SlackMessageBuilderJsonImpl extends JsonBuilder implements SlackMessageBui
 	@Override
 	public SlackMessageBuilder setIconEmoji(String iconEmoji)
 	{
-		setField("icon_emoji",iconEmoji,false);
+		setField("icon_emoji",":" + iconEmoji + ":",false);
 		return this;
 	}
 
@@ -55,9 +54,9 @@ class SlackMessageBuilderJsonImpl extends JsonBuilder implements SlackMessageBui
 
 
 	@Override
-	public SlackMessageBuilder setChannel(ChannelName channelName)
+	public SlackMessageBuilder setChannel(String channelName)
 	{
-		setField("channel","#" + channelName.getValue(),false);
+		setField("channel","#" + channelName,false);
 		return this;
 	}
 

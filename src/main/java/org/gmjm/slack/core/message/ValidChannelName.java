@@ -1,15 +1,14 @@
 package org.gmjm.slack.core.message;
 
 import org.apache.commons.lang3.StringUtils;
-import org.gmjm.slack.api.message.ChannelName;
 
-public class CleanChannelName implements ChannelName
+public class ValidChannelName
 {
 
 	private static final int MAX_CHANNEL_LENGTH = 21;
 	private final String value;
 
-	public CleanChannelName(String channelName)
+	public ValidChannelName(String channelName)
 	{
 		if(StringUtils.isEmpty(channelName)) {
 			throw new IllegalArgumentException("channelName cannot be null or empty.");
@@ -61,8 +60,6 @@ public class CleanChannelName implements ChannelName
 		return intermediateValue;
 	}
 
-
-	@Override
 	public String getValue()
 	{
 		return value;

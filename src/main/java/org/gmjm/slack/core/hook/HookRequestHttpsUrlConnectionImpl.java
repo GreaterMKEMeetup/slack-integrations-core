@@ -8,11 +8,14 @@ import javax.net.ssl.HttpsURLConnection;
 import org.apache.commons.io.IOUtils;
 import org.gmjm.slack.api.hook.HookRequest;
 import org.gmjm.slack.api.hook.HookResponse;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 class HookRequestHttpsUrlConnectionImpl implements HookRequest
 {
+
+	private static final Logger logger = LoggerFactory.getLogger(HookRequestHttpsUrlConnectionImpl.class);
 
 	private String slackHookUrl;
 
@@ -24,6 +27,9 @@ class HookRequestHttpsUrlConnectionImpl implements HookRequest
 
 	@Override
 	public HookResponse send(String string) {
+
+		logger.info(String.format("Sending to: %s \n message: \n %s \n",slackHookUrl,string));
+
 		try
 		{
 			URL url = new URL(slackHookUrl);
