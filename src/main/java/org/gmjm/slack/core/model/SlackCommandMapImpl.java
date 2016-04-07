@@ -60,6 +60,35 @@ public class SlackCommandMapImpl implements SlackCommand
 		return requestParams;
 	}
 
+
+	@Override
+	public String getTeamId()
+	{
+		return get("team_id");
+	}
+
+
+	@Override
+	public String getTeamDomain()
+	{
+		return get("team_domain");
+	}
+
+
+	@Override
+	public String getChannelId()
+	{
+		return get("channel_id");
+	}
+
+
+	@Override
+	public String getChannelName()
+	{
+		return get("channel_name");
+	}
+
+
 	private String get(String key) {
 		String value = this.requestParams.get(key);
 		return value != null ? value : "";

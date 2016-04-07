@@ -41,7 +41,7 @@ class SlackMessageBuilderJsonImpl extends JsonBuilder implements SlackMessageBui
 	@Override
 	public SlackMessageBuilder setIconUrl(String iconUrl)
 	{
-		setField("image_url",iconUrl,false);
+		setField("icon_url",iconUrl,false);
 		return this;
 	}
 
@@ -52,6 +52,12 @@ class SlackMessageBuilderJsonImpl extends JsonBuilder implements SlackMessageBui
 		return this;
 	}
 
+	@Override
+	public SlackMessageBuilder setChannelId(String channelId)
+	{
+		setField("channel",channelId,false);
+		return this;
+	}
 
 	@Override
 	public SlackMessageBuilder setChannel(String channelName)

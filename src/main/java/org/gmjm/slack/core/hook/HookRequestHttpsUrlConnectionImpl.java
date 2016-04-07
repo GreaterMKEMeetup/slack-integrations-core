@@ -26,9 +26,9 @@ class HookRequestHttpsUrlConnectionImpl implements HookRequest
 	}
 
 	@Override
-	public HookResponse send(String string) {
+	public HookResponse send(String message) {
 
-		logger.info(String.format("Sending to: %s \n message: \n %s \n",slackHookUrl,string));
+		logger.info(String.format("Sending to: %s \n message: \n %s \n",slackHookUrl,message));
 
 		try
 		{
@@ -39,7 +39,7 @@ class HookRequestHttpsUrlConnectionImpl implements HookRequest
 			con.setRequestProperty("Content-Type", "application/json");
 			OutputStream os = con.getOutputStream();
 
-			os.write(string.getBytes());
+			os.write(message.getBytes());
 
 			os.flush();
 
