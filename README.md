@@ -93,12 +93,11 @@ public class SlackMessageProcessor {
   HookRequest hookRequest;
   
   public void process(SlackCommand slackCommand) {
-    SlackMessageBuilder messageBuilder = slackMessageFactory.createMessageBuilder(); 
-
-    messageBuilder.setUsername("doughnut-overlord");
-    messageBuilder.setIconEmoji("doughnut");
-    messageBuilder.setText("Eat me, I'm a *delicious* doughnut!"); //Markdown is enabled by default
-    messageBuilder.setChannelId(slackCommand.getChannelId());
+    SlackMessageBuilder messageBuilder = slackMessageFactory.createMessageBuilder()
+		.setUsername("doughnut-overlord")
+    	.setIconEmoji("doughnut")
+    	.setText("Eat me, I'm a *delicious* doughnut!") //Markdown is enabled by default
+    	.setChannelId(slackCommand.getChannelId());
     
     //Send a response only the user who issued the command will see.
     hookRequestFactory
