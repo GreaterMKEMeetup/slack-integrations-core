@@ -1,16 +1,19 @@
 package org.gmjm.slack.core.message;
 
 
+import java.io.IOException;
+
+import org.apache.commons.io.IOUtils;
 import org.testng.annotations.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import static org.testng.Assert.assertEquals;
 
 public class SlackMessageBuilderTest
 {
 
 
 	@Test
-	public void testSlackMessageToJson() throws JsonProcessingException
+	public void testSlackMessageToJson() throws IOException
 	{
 
 
@@ -39,9 +42,7 @@ public class SlackMessageBuilderTest
 			sm.addAttachment(attachmentBuilder1);
 		}
 
-
-		System.out.println(sm.buildJsonString());
-
+		assertEquals(IOUtils.toString(this.getClass().getResourceAsStream("message.json")),sm.buildJsonString());
 
 	}
 

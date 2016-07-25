@@ -46,10 +46,6 @@ public class SlackCommandMapImpl implements SlackCommand
 		return get("response_url");
 	}
 
-	/**
-	 * User returend in message friendly format.
-	 * @return
-	 */
 	@Override
 	public String getMsgFriendlyUser() {
 		return String.format("<@%s|%s>",getUserId(),getUserName());

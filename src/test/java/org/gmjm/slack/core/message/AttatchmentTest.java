@@ -1,9 +1,10 @@
 package org.gmjm.slack.core.message;
 
 
-import org.testng.annotations.Test;
+import java.io.IOException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.commons.io.IOUtils;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
@@ -12,7 +13,7 @@ public class AttatchmentTest
 {
 
 	@Test
-	public void testJsonAttachment() throws JsonProcessingException
+	public void testJsonAttachment() throws IOException
 	{
 
 		AttachmentBuilderJsonImpl attachmentBuilder = new AttachmentBuilderJsonImpl();
@@ -21,8 +22,9 @@ public class AttatchmentTest
 		attachmentBuilder.setText("Modified *18* files");
 
 		assertEquals(
-			"{\"mrkdwn_in\":[\"text\",\"title\"],\"title_link\":\"http://example.com/mike/\",\"text\":\"Modified *18* files\",\"title\":\"Update Catalan translation to e38cb41\"}",
+			IOUtils.toString(this.getClass().getResourceAsStream("attachment.json")),
 			attachmentBuilder.buildJsonString());
+
 	}
 
 }
