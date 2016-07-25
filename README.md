@@ -54,7 +54,7 @@ public class Application {
     @Value("${slack.webhook.url}")
     private String slackWebhookUrl;
 
-    private HookRequestFactory hookRequestFactory = new HttpsHookRequestFactory(slackWebhookUrl);
+    private HookRequestFactory hookRequestFactory = new HttpsHookRequestFactory();
 
     @Bean
     public HookRequestFactory getHookRequestFactory() {
