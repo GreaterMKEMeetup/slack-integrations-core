@@ -1,4 +1,6 @@
-# slack-integrations-core
+[![Build Status](https://travis-ci.org/GreaterMKEMeetup/slack-integrations-core.svg?branch=master)](https://travis-ci.org/GreaterMKEMeetup/slack-integrations-core)
+
+# slack-integrations-core 
 
 This is the base implementation of the [GMJM slack-integrations-api](https://github.com/GreaterMKEMeetup/slack-integrations-api).  See the readme for API usage examples.
 
