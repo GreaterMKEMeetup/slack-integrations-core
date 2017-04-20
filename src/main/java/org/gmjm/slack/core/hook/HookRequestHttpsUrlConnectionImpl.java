@@ -11,15 +11,14 @@ import org.gmjm.slack.api.hook.HookResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-class HookRequestHttpsUrlConnectionImpl implements HookRequest
-{
+class HookRequestHttpsUrlConnectionImpl implements HookRequest {
 
 	private static final Logger logger = LoggerFactory.getLogger(HookRequestHttpsUrlConnectionImpl.class);
 
 	private String slackHookUrl;
 
-	public HookRequestHttpsUrlConnectionImpl(){}
+	public HookRequestHttpsUrlConnectionImpl() {
+	}
 
 	public HookRequestHttpsUrlConnectionImpl(String slackHookUrl) {
 		this.slackHookUrl = slackHookUrl;
@@ -28,10 +27,9 @@ class HookRequestHttpsUrlConnectionImpl implements HookRequest
 	@Override
 	public HookResponse send(String message) {
 
-		logger.info(String.format("Sending to: %s \n message: \n %s \n",slackHookUrl,message));
+		logger.info(String.format("Sending to: %s \n message: \n %s \n", slackHookUrl, message));
 
-		try
-		{
+		try {
 			URL url = new URL(slackHookUrl);
 			HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 			con.setRequestMethod("POST");
@@ -49,11 +47,11 @@ class HookRequestHttpsUrlConnectionImpl implements HookRequest
 
 			con.disconnect();
 
-			return HookResponseFactory.success(response,responseCode);
-		} catch (Exception e) {
-			return HookResponseFactory.fail(e.getMessage(),500,e);
+			return HookResponseFactory.success(response, responseCode);
 		}
-
+		catch (Exception e) {
+			return HookResponseFactory.fail(e.getMessage(), 500, e);
+		}
 
 	}
 }

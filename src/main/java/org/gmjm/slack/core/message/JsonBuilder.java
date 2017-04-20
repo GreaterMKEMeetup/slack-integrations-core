@@ -8,35 +8,39 @@ import java.util.Set;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-class JsonBuilder implements BuilderBackingMap
-{
+class JsonBuilder implements BuilderBackingMap {
+
+	protected Map<String, Object> jsonFields = new HashMap<>();
 	private ObjectMapper om = new ObjectMapper();
-
-	protected Map<String,Object> fields = new HashMap<>();
-	private Set<String> markdownEnabledFields = new HashSet<String>();
-
+	private Set<String> markdownEnabledFields = new HashSet<>();
 
 	public JsonBuilder() {
-		fields.put("mrkdwn_in",markdownEnabledFields);
+		jsonFields.put("mrkdwn_in", markdownEnabledFields);
 	}
 
 	public JsonBuilder(boolean allowMarkdown) {
-		if(allowMarkdown) fields.put("mrkdwn_in",markdownEnabledFields);
+		if (allowMarkdown) {
+			jsonFields.put("mrkdwn_in", markdownEnabledFields);
+		}
 	}
 
-
-	public String buildJsonString() throws JsonProcessingException
-	{
-		return om.writeValueAsString(this.fields);
+	public String buildJsonString() throws JsonProcessingException {
+		return om.writeValueAsString(this.jsonFields);
 	}
 
 	protected void setField(String fieldName, String fieldText, boolean markdownEnabled) {
-		fields.put(fieldName,fieldText);
-		if(markdownEnabled) markdownEnabledFields.add(fieldName);
+		jsonFields.put(fieldName, fieldText);
+		if (markdownEnabled) {
+			markdownEnabledFields.add(fieldName);
+		}
+	}
+
+	protected void setField(String fieldName, boolean value) {
+		jsonFields.put(fieldName, value);
 	}
 
 	@Override
-	public Map<String,Object> getBackingMap() {
-		return fields;
+	public Map<String, Object> getBackingMap() {
+		return jsonFields;
 	}
 }

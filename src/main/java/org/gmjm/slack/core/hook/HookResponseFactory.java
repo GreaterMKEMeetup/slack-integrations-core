@@ -2,11 +2,18 @@ package org.gmjm.slack.core.hook;
 
 import org.gmjm.slack.api.hook.HookResponse;
 
-class HookResponseFactory
-{
+class HookResponseFactory {
 
-	private static class HookResponseImpl implements HookResponse
-	{
+	static HookResponse success(String message, int statusCode) {
+		return new HookResponseImpl(message, statusCode, HookResponse.Status.SUCCESS, null);
+	}
+
+	static HookResponse fail(String message, int statusCode, Throwable throwable) {
+		return new HookResponseImpl(message, statusCode, HookResponse.Status.FAILED, throwable);
+	}
+
+	private static class HookResponseImpl implements HookResponse {
+
 		private String message;
 		private int statusCode;
 		private Status status;
@@ -17,7 +24,7 @@ class HookResponseFactory
 			int statusCode,
 			Status status,
 			Throwable throwable
-		){
+		) {
 			this.message = message;
 			this.statusCode = statusCode;
 			this.status = status;
@@ -25,43 +32,23 @@ class HookResponseFactory
 		}
 
 		@Override
-		public String getMessage()
-		{
+		public String getMessage() {
 			return message;
 		}
 
-
 		@Override
-		public int getStatusCode()
-		{
+		public int getStatusCode() {
 			return statusCode;
 		}
 
-
 		@Override
-		public Status getStatus()
-		{
+		public Status getStatus() {
 			return status;
 		}
 
-
 		@Override
-		public Throwable getThrowable()
-		{
+		public Throwable getThrowable() {
 			return throwable;
 		}
-	}
-
-	static HookResponse success(
-		String message,
-		int statusCode) {
-		return new HookResponseImpl(message,statusCode, HookResponse.Status.SUCCESS,null);
-	}
-
-	static HookResponse fail(
-		String message,
-		int statusCode,
-		Throwable throwable) {
-		return new HookResponseImpl(message,statusCode, HookResponse.Status.FAILED,throwable);
 	}
 }

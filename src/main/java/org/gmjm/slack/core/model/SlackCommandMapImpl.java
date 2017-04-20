@@ -4,12 +4,11 @@ import java.util.Map;
 
 import org.gmjm.slack.api.model.SlackCommand;
 
-public class SlackCommandMapImpl implements SlackCommand
-{
-	private final Map<String,String> requestParams;
+public class SlackCommandMapImpl implements SlackCommand {
 
-	public SlackCommandMapImpl(Map<String, String> requestParams)
-	{
+	private final Map<String, String> requestParams;
+
+	public SlackCommandMapImpl(Map<String, String> requestParams) {
 		this.requestParams = requestParams;
 	}
 
@@ -18,13 +17,10 @@ public class SlackCommandMapImpl implements SlackCommand
 		return get("text");
 	}
 
-
 	@Override
-	public String getCommand()
-	{
+	public String getCommand() {
 		return get("command");
 	}
-
 
 	@Override
 	public String getUserName() {
@@ -48,42 +44,33 @@ public class SlackCommandMapImpl implements SlackCommand
 
 	@Override
 	public String getMsgFriendlyUser() {
-		return String.format("<@%s|%s>",getUserId(),getUserName());
+		return String.format("<@%s|%s>", getUserId(), getUserName());
 	}
 
 	@Override
-	public Map<String,String> getAll() {
+	public Map<String, String> getAll() {
 		return requestParams;
 	}
 
-
 	@Override
-	public String getTeamId()
-	{
+	public String getTeamId() {
 		return get("team_id");
 	}
 
-
 	@Override
-	public String getTeamDomain()
-	{
+	public String getTeamDomain() {
 		return get("team_domain");
 	}
 
-
 	@Override
-	public String getChannelId()
-	{
+	public String getChannelId() {
 		return get("channel_id");
 	}
 
-
 	@Override
-	public String getChannelName()
-	{
+	public String getChannelName() {
 		return get("channel_name");
 	}
-
 
 	private String get(String key) {
 		String value = this.requestParams.get(key);

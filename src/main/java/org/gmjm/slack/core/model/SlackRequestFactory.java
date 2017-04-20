@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.gmjm.slack.api.model.SlackCommand;
 
-public interface SlackRequestFactory
-{
+public interface SlackRequestFactory {
+
 	SlackCommand create(Map<String, String> requestParameters);
 }
