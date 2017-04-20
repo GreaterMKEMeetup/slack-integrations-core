@@ -1,22 +1,25 @@
 package org.gmjm.slack.core.message;
 
 import org.gmjm.slack.api.message.AttachmentBuilder;
-import org.gmjm.slack.api.message.SlackMessageFactory;
+import org.gmjm.slack.api.message.FieldBuilder;
 import org.gmjm.slack.api.message.SlackMessageBuilder;
+import org.gmjm.slack.api.message.SlackMessageFactory;
 
-public class JsonMessageFactory implements SlackMessageFactory
-{
+public class JsonMessageFactory implements SlackMessageFactory {
+
 	@Override
-	public SlackMessageBuilder createMessageBuilder()
-	{
+	public SlackMessageBuilder createMessageBuilder() {
 		return new SlackMessageBuilderJsonImpl();
 	}
 
+	@Override
+	public AttachmentBuilder createAttachmentBuilder() {
+		return new AttachmentBuilderJsonImpl();
+	}
 
 	@Override
-	public AttachmentBuilder createAttachmentBuilder()
-	{
-		return new AttachmentBuilderJsonImpl();
+	public FieldBuilder createFieldBuilder() {
+		return new FieldBuilderJsonImpl();
 	}
 
 }

@@ -7,103 +7,87 @@ import java.util.Map;
 import org.gmjm.slack.api.message.AttachmentBuilder;
 import org.gmjm.slack.api.message.SlackMessageBuilder;
 
-class SlackMessageBuilderJsonImpl extends JsonBuilder implements SlackMessageBuilder
-{
+class SlackMessageBuilderJsonImpl extends JsonBuilder implements SlackMessageBuilder {
 
-	List<Map<String,Object>> attachments = new ArrayList<>();
+	List<Map<String, Object>> attachments = new ArrayList<>();
 
-	public SlackMessageBuilderJsonImpl(){
+	public SlackMessageBuilderJsonImpl() {
 		super(false);
-		fields.put("attachments",attachments);
+		jsonFields.put("attachments", attachments);
 	}
 
 	/**
-	 *
 	 * Sets text, defaulted to use markdown.
 	 *
 	 * @param text
 	 */
 	@Override
 	public SlackMessageBuilder setText(String text) {
-		setText(text,true);
+		setText(text, true);
 		return this;
 	}
-
 
 	@Override
-	public SlackMessageBuilder setIconEmoji(String iconEmoji)
-	{
-		setField("icon_emoji",":" + iconEmoji + ":",false);
+	public SlackMessageBuilder setIconEmoji(String iconEmoji) {
+		setField("icon_emoji", ":" + iconEmoji + ":", false);
 		return this;
 	}
-
 
 	@Override
-	public SlackMessageBuilder setIconUrl(String iconUrl)
-	{
-		setField("icon_url",iconUrl,false);
+	public SlackMessageBuilder setIconUrl(String iconUrl) {
+		setField("icon_url", iconUrl, false);
 		return this;
 	}
-
 
 	@Override
 	public SlackMessageBuilder setText(String text, boolean markdownEnabled) {
-		setField("text",text,markdownEnabled);
+		setField("text", text, markdownEnabled);
 		return this;
 	}
 
 	@Override
-	public SlackMessageBuilder setChannelId(String channelId)
-	{
-		setField("channel",channelId,false);
+	public SlackMessageBuilder setChannelId(String channelId) {
+		setField("channel", channelId, false);
 		return this;
 	}
 
 	@Override
-	public SlackMessageBuilder setChannel(String channelName)
-	{
-		setField("channel","#" + channelName,false);
+	public SlackMessageBuilder setChannel(String channelName) {
+		setField("channel", "#" + channelName, false);
 		return this;
 	}
-
 
 	@Override
-	public SlackMessageBuilder setUserAsChannel(String userName)
-	{
-		setField("channel","@" + userName,false);
+	public SlackMessageBuilder setUserAsChannel(String userName) {
+		setField("channel", "@" + userName, false);
 		return this;
 	}
-
 
 	@Override
-	public SlackMessageBuilder addAttachment(AttachmentBuilder attachmentBuilder){
-		attachments.add(((AttachmentBuilderJsonImpl)attachmentBuilder).getBackingMap());
+	public SlackMessageBuilder addAttachment(AttachmentBuilder attachmentBuilder) {
+		attachments.add(((AttachmentBuilderJsonImpl) attachmentBuilder).getBackingMap());
 		return this;
 	}
-
 
 	@Override
-	public SlackMessageBuilder setResponseType(String responseType)
-	{
-		setField("response_type",responseType,false);
+	public SlackMessageBuilder setResponseType(String responseType) {
+		setField("response_type", responseType, false);
 		return this;
 	}
-
 
 	@Override
-	public SlackMessageBuilder setUsername(String username)
-	{
-		setField("username",username,false);
+	public SlackMessageBuilder setUsername(String username) {
+		setField("username", username, false);
 		return this;
 	}
-
 
 	@Override
 	public String build() {
-		try	{
+		try {
 			return super.buildJsonString();
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to build JSON string.",e);
+		}
+		catch (Exception e) {
+			throw new RuntimeException("Failed to build JSON string.", e);
 		}
 	}
 

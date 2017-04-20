@@ -2,9 +2,8 @@ package org.gmjm.slack.core.message;
 
 import java.util.Map;
 
-public interface BuilderBackingMap
-{
+public interface BuilderBackingMap {
 
-	Map<String,Object> getBackingMap();
+	Map<String, Object> getBackingMap();
 
 }
