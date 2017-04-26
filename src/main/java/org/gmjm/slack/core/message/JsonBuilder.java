@@ -35,6 +35,10 @@ class JsonBuilder implements BuilderBackingMap {
 		}
 	}
 
+	protected void setField(String fieldName, int value) {
+		jsonFields.put(fieldName, value);
+	}
+
 	protected void setField(String fieldName, boolean value) {
 		jsonFields.put(fieldName, value);
 	}

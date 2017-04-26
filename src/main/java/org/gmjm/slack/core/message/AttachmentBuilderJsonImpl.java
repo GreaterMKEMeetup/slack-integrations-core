@@ -86,6 +86,17 @@ class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 	}
 
 	@Override
+	public AttachmentBuilder setTimestamp(int time) {
+		setField("ts", time);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder setCurrentTimestamp() {
+		return setTimestamp((int) (System.currentTimeMillis() / 1000L));
+	}
+
+	@Override
 	public AttachmentBuilder addField(FieldBuilder builder) {
 		fields.add(((FieldBuilderJsonImpl) builder).getBackingMap());
 		return this;
