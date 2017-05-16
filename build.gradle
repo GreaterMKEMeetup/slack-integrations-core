@@ -22,7 +22,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
     compile 'commons-io:commons-io:2.4'
-    compile 'com.github.greatermkemeetup:slack-integrations-api:1.0.2'
+    compile 'com.github.greatermkemeetup:slack-integrations-api:1.0.3'
 
     testCompile 'org.testng:testng:6.9.10'
 }
