@@ -19,12 +19,14 @@ repositories {
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.18'
     compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.9.3'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.3'
     compile 'commons-io:commons-io:2.4'
-    compile 'com.github.greatermkemeetup:slack-integrations-api:1.0.3'
+    compile 'com.github.greatermkemeetup:slack-integrations-api:1.0.4-SNAPSHOT'
+    compile 'javax.websocket:javax.websocket-api:1.1'
 
     testCompile 'org.testng:testng:6.9.10'
+	compile 'org.glassfish.tyrus.bundles:tyrus-standalone-client:1.13'
 }
 
 task javadocJar(type: Jar) {
