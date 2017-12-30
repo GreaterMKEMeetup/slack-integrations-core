@@ -5,13 +5,13 @@ import org.gmjm.slack.api.rtm.EventConsumer;
 import org.gmjm.slack.api.rtm.EventConsumerID;
 import org.gmjm.slack.api.rtm.RtmSession;
 import org.gmjm.slack.api.rtm.RtmSessionFactory;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class RtmSessionTest {
 
-	private String token = System.getProperty("slack.token");
+	private String token = System.getenv("slack.token");
 
 	@Test
 	public void testConnect() throws InterruptedException {

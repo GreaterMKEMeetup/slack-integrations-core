@@ -1,6 +1,5 @@
 package org.gmjm.slack.core.message;
 
-import org.apache.commons.lang3.StringUtils;
 
 public class ValidChannelName {
 
@@ -8,7 +7,7 @@ public class ValidChannelName {
 	private final String value;
 
 	public ValidChannelName(String channelName) {
-		if (StringUtils.isEmpty(channelName)) {
+		if (channelName == null || channelName.trim().isEmpty()) {
 			throw new IllegalArgumentException("channelName cannot be null or empty.");
 		}
 

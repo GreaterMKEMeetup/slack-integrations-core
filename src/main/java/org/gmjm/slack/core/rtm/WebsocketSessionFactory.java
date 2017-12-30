@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.gmjm.slack.api.rtm.ConnectionError;
+import org.gmjm.slack.api.rtm.ConnectionErrorType;
 import org.gmjm.slack.api.rtm.RtmSession;
 import org.gmjm.slack.api.rtm.RtmSessionCreationException;
 import org.gmjm.slack.api.rtm.RtmSessionDetails;
@@ -69,13 +70,8 @@ public class WebsocketSessionFactory implements RtmSessionFactory {
 			throw new RtmSessionCreationException(
 				new ConnectionError() {
 					@Override
-					public String getCode() {
-						return "connection_exception";
-					}
-
-					@Override
-					public String getDescription() {
-						return e.getMessage();
+					public ConnectionErrorType getConnectionErrorType() {
+						return ConnectionErrorType.EXCEPTION;
 					}
 				}, e);
 		}
