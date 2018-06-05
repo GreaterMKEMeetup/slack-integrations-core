@@ -4,4 +4,4 @@ jdk:
 - oraclejdk8
 
 install:
-- ./gradlew clean test assemble -x signArchives
+- ./gradlew clean test assemble uploadArchives
