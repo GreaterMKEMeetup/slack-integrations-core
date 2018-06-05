@@ -16,6 +16,10 @@ repositories {
     mavenLocal()
 }
 
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.18'
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.3'
@@ -23,7 +27,7 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'org.apache.httpcomponents:httpclient:4.5.4'
     compile 'org.apache.httpcomponents:httpmime:4.5.4'
-    compile 'com.github.greatermkemeetup:slack-integrations-api:1.0.4-SNAPSHOT'
+    compile group: 'com.github.greatermkemeetup', name: 'slack-integrations-api', version: '1.0.4-SNAPSHOT', changing: true
     compile 'javax.websocket:javax.websocket-api:1.1'
 
     testCompile 'junit:junit:4.12'
