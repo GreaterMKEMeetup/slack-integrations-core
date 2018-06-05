@@ -13,7 +13,8 @@ import static org.junit.Assert.*;
 
 public class FileUploadTest {
 
-	private String token = System.getenv("slack.token");
+	private String testChannel = System.getenv("SLACK_TEST_CHANNEL_NAME");
+	private String token = System.getenv("SLACK_BOT_TOKEN");
 
 	@Test
 	public void testContentUpload() throws Throwable {
@@ -24,7 +25,7 @@ public class FileUploadTest {
 		FileUploadBuilder uploadBuilder = uploadRequestFactory.createFileUploadBuilder();
 
 		uploadBuilder
-			.setChannels("general")
+			.setChannels(testChannel)
 			.setTitle("Hello Title")
 			.setFiletype(FileType.TEXT)
 			.setFilename("hello_file_upload.txt")
@@ -34,7 +35,7 @@ public class FileUploadTest {
 		FileUploadResponse response = uploadRequest.upload(uploadBuilder);
 
 		if(response.getStatus() == FileUploadResponse.Status.FAILED) {
-			System.out.println(response);
+			throw response.getThrowable();
 		}
 
 		assertEquals(FileUploadResponse.Status.SUCCESS, response.getStatus());
@@ -52,7 +53,7 @@ public class FileUploadTest {
 
 
 		uploadBuilder
-			.setChannels("general")
+			.setChannels(testChannel)
 			.setTitle("Hello Cat")
 			.setFiletype("jpg")
 			.setFilename("hello_cat.jpg")
@@ -62,7 +63,7 @@ public class FileUploadTest {
 		FileUploadResponse response = uploadRequest.upload(uploadBuilder);
 
 		if(response.getStatus() == FileUploadResponse.Status.FAILED) {
-			System.out.println(response);
+			throw response.getThrowable();
 		}
 
 		assertEquals(FileUploadResponse.Status.SUCCESS, response.getStatus());

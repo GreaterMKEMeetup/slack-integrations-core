@@ -5,18 +5,22 @@ import org.gmjm.slack.api.hook.HookResponse;
 import org.gmjm.slack.core.hook.HttpsHookRequestFactory;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertTrue;
+
 public class SendMessageTest {
 
-    private String url = System.getenv("slack.webhook.url");
+    private String testChannel = System.getenv("SLACK_TEST_CHANNEL_NAME");
+    private String url = System.getenv("SLACK_WEBHOOK_URL");
+    private String version = System.getenv("version");
 
     @Test
     public void testSendMessage() throws Throwable {
 
         String message = new SlackMessageBuilderJsonImpl()
 
-            .setText("So many commits!")
+            .setText("Integration test for version: " + version)
             .setResponseType("ephemeral")
-            .setChannel("diaspora")
+            .setChannel(testChannel)
             .setIconUrl("https://slack-files2.s3-us-west-2.amazonaws.com/bot_icons/2016-08-31/74918376646_48.png")
 
             .addAttachment(
@@ -52,6 +56,8 @@ public class SendMessageTest {
         if(response.getThrowable() != null) {
             throw response.getThrowable();
         }
+
+        assertTrue(HookResponse.Status.SUCCESS.equals(response.getStatus()));
 
     }
 }
