@@ -1,24 +1,23 @@
 package org.gmjm.slack.core.message;
 
-import java.io.IOException;
-
-import org.apache.commons.io.IOUtils;
+import org.gmjm.slack.api.hook.HookRequest;
+import org.gmjm.slack.api.hook.HookResponse;
+import org.gmjm.slack.core.hook.HttpsHookRequestFactory;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+public class SendMessageTest {
 
-public class SlackMessageBuilderTest {
+    private String url = System.getenv("slack.webhook.url");
 
     @Test
-    public void testSlackMessageToJson() throws IOException {
+    public void testSendMessage() throws Throwable {
 
         String message = new SlackMessageBuilderJsonImpl()
 
             .setText("So many commits!")
-            .setChannel("engineering")
-            .setIconEmoji("smiley")
             .setResponseType("ephemeral")
-            .setIconUrl("https://picsum.photos/200/300")
+            .setChannel("diaspora")
+            .setIconUrl("https://slack-files2.s3-us-west-2.amazonaws.com/bot_icons/2016-08-31/74918376646_48.png")
 
             .addAttachment(
                 new AttachmentBuilderJsonImpl()
@@ -41,13 +40,18 @@ public class SlackMessageBuilderTest {
                             .setValue("Value 1"))
                     .addField(
                         new FieldBuilderJsonImpl()
-                            .setShort(false)
+                            .setShort(true)
                             .setTitle("Example Field 2")
                             .setValue("Value 2 extra long value")))
             .build();
 
-        assertEquals(IOUtils.toString(this.getClass().getResourceAsStream("message.json")), message);
+        HookRequest hookRequest = new HttpsHookRequestFactory().createHookRequest(url);
+
+        HookResponse response = hookRequest.send(message);
+
+        if(response.getThrowable() != null) {
+            throw response.getThrowable();
+        }
 
     }
-
 }

@@ -11,6 +11,8 @@ import org.gmjm.slack.api.hook.HookResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.lang.String.format;
+
 class HookRequestHttpsUrlConnectionImpl implements HookRequest {
 
 	private static final Logger logger = LoggerFactory.getLogger(HookRequestHttpsUrlConnectionImpl.class);
@@ -27,7 +29,7 @@ class HookRequestHttpsUrlConnectionImpl implements HookRequest {
 	@Override
 	public HookResponse send(String message) {
 
-		logger.info(String.format("Sending to: %s \n message: \n %s \n", slackHookUrl, message));
+		logger.info(format("Sending to: %s \n message: \n %s \n", slackHookUrl, message));
 
 		try {
 			URL url = new URL(slackHookUrl);
@@ -41,10 +43,19 @@ class HookRequestHttpsUrlConnectionImpl implements HookRequest {
 
 			os.flush();
 
-			String response = IOUtils.toString(con.getInputStream());
-
 			int responseCode = con.getResponseCode();
 
+			if(responseCode < 200 || responseCode > 299) {
+				return HookResponseFactory.fail(
+					con.getResponseMessage(),
+					con.getResponseCode(),
+					new RuntimeException(
+						format("Failed to send Slack message. responseCode:(%s), responseMessage:(%s)",
+							con.getResponseCode(),
+							con.getResponseMessage())));
+			}
+
+			String response = IOUtils.toString(con.getInputStream());
 			con.disconnect();
 
 			return HookResponseFactory.success(response, responseCode);

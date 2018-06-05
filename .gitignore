@@ -1,6 +1,8 @@
 ### Java template
 *.class
 
+.DS_Store
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -103,6 +105,9 @@ local.properties
 *.iws
 
 ## Plugin-specific files:
+
+# Structure 101 Plugin (IntelliJ
+s101plugin.state
 
 # IntelliJ
 /out/

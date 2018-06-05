@@ -1,6 +1,6 @@
 package org.gmjm.slack.core.message;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,11 +9,10 @@ import org.gmjm.slack.api.message.FieldBuilder;
 
 class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder {
 
-	List<Map<String, Object>> fields = new ArrayList<>();
+	List<Map<String, Object>> fields = null;
 
 	public AttachmentBuilderJsonImpl() {
 		super();
-		jsonFields.put("fields", fields);
 	}
 
 	@Override
@@ -98,6 +97,10 @@ class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 
 	@Override
 	public AttachmentBuilder addField(FieldBuilder builder) {
+		if(fields == null) {
+			fields = new LinkedList<>();
+			jsonFields.put("fields", fields);
+		}
 		fields.add(((FieldBuilderJsonImpl) builder).getBackingMap());
 		return this;
 	}

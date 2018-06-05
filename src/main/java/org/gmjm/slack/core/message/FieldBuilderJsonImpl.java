@@ -5,7 +5,7 @@ import org.gmjm.slack.api.message.FieldBuilder;
 public class FieldBuilderJsonImpl extends JsonBuilder implements FieldBuilder {
 
 	public FieldBuilderJsonImpl() {
-		super();
+		super(false);
 	}
 
 	@Override

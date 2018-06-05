@@ -13,7 +13,6 @@ public class AttatchmentTest
 	@Test
 	public void testJsonAttachment() throws IOException
 	{
-
 		AttachmentBuilderJsonImpl attachmentBuilder = new AttachmentBuilderJsonImpl();
 
 		attachmentBuilder.setTitle("Update Catalan translation to e38cb41","http://example.com/mike/");
@@ -22,7 +21,6 @@ public class AttatchmentTest
 		assertEquals(
 			IOUtils.toString(this.getClass().getResourceAsStream("attachment.json")),
 			attachmentBuilder.buildJsonString());
-
 	}
 
 }

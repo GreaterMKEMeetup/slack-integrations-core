@@ -6,12 +6,23 @@ import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 class JsonBuilder implements BuilderBackingMap {
 
 	protected Map<String, Object> jsonFields = new HashMap<>();
-	private ObjectMapper om = new ObjectMapper();
+
+	DefaultPrettyPrinter.Indenter indenter = new DefaultIndenter("	", DefaultIndenter.SYS_LF);
+	DefaultPrettyPrinter printer = new DefaultPrettyPrinter()
+		.withArrayIndenter(indenter)
+		.withObjectIndenter(indenter);
+
+	private ObjectWriter objectWriter = new ObjectMapper()
+		.writer(printer);
+
 	private Set<String> markdownEnabledFields = new HashSet<>();
 
 	public JsonBuilder() {
@@ -25,7 +36,7 @@ class JsonBuilder implements BuilderBackingMap {
 	}
 
 	public String buildJsonString() throws JsonProcessingException {
-		return om.writeValueAsString(this.jsonFields);
+		return objectWriter.writeValueAsString(this.jsonFields);
 	}
 
 	protected void setField(String fieldName, String fieldText, boolean markdownEnabled) {
