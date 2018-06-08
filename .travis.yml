@@ -15,4 +15,6 @@ jobs:
     - stage: test
       script: ./gradlew test -x signArchives
     - stage: deploy
-      script: openssl aes-256-cbc -K $encrypted_498771521deb_key -iv $encrypted_498771521deb_iv -in oss_secring.gpg.enc -out oss_secring.gpg -d && ./gradlew uploadArchives
+      script:
+        - openssl aes-256-cbc -K $encrypted_498771521deb_key -iv $encrypted_498771521deb_iv -in oss_secring.gpg.enc -out oss_secring.gpg -d
+        - ./gradlew uploadArchives
