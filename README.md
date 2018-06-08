@@ -12,20 +12,20 @@ This is the base implementation of the [GMJM slack-integrations-api](https://git
 	<dependency>
 		<groupId>com.github.greatermkemeetup</groupId>
 		<artifactId>slack-integrations-api</artifactId>
-		<version>1.0.3</version>
+		<version>1.1.0</version>
 	</dependency>
 	<dependency>
 		<groupId>com.github.greatermkemeetup</groupId>
 		<artifactId>slack-integrations-core</artifactId>
-		<version>1.0.3</version>
+		<version>1.1.0</version>
 		...
 	</dependency>
 </dependencies>
 ```
 ### Gradle
 ```groovy
-compile 'com.github.greatermkemeetup:slack-integrations-api:1.0.3'
-compile 'com.github.greatermkemeetup:slack-integrations-core:1.0.3'
+compile 'com.github.greatermkemeetup:slack-integrations-api:1.1.0'
+compile 'com.github.greatermkemeetup:slack-integrations-core:1.1.0'
 ```
 
 Here are a few ways to setup your implementation.  More concrete examples can be found in the [GMJM springboot-slack-integrations](https://github.com/GreaterMKEMeetup/springboot-slack-integrations) project.
