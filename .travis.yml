@@ -7,4 +7,4 @@ before_install:
   -in oss_secring.gpg.enc -out oss_secring.gpg -d
 
 install:
-- ./gradlew clean test assemble uploadArchives
+- ./gradlew clean test assemble uploadArchives -P
