@@ -2,8 +2,8 @@ package org.gmjm.slack.core.file;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -15,7 +15,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import org.gmjm.slack.api.file.FileUploadBuilder;
+import org.gmjm.slack.api.common.Channel;
+import org.gmjm.slack.api.file.FileUpload;
 import org.gmjm.slack.api.file.FileUploadRequest;
 import org.gmjm.slack.api.file.FileUploadResponse;
 import org.gmjm.slack.core.response.Response;
@@ -37,15 +38,13 @@ class FileUploadRequestImpl implements FileUploadRequest {
 	}
 
 	@Override
-	public FileUploadResponse upload(FileUploadBuilder fileUploadBuilder) {
+	public FileUploadResponse upload(FileUpload fileUpload) {
 
 		try {
 
-			FileUploadBuilderImpl builder = (FileUploadBuilderImpl) fileUploadBuilder;
-
 			HttpPost post = new HttpPost(fileUploadUrl);
 
-			writePostBody(post, builder);
+			writePostBody(post, fileUpload);
 
 			HttpResponse httpResponse = httpClient.execute(post);
 
@@ -57,37 +56,57 @@ class FileUploadRequestImpl implements FileUploadRequest {
 
 			if(response.isOk()) {
 				if(response.hasWarning()) {
-					FileUploadResponseFactory.success(responseCode, response.getWarning());
+					FileUploadResponseFactory.success(fileUpload, responseCode, response.getWarning());
 				}
-				return FileUploadResponseFactory.success(responseCode);
+				return FileUploadResponseFactory.success(fileUpload, responseCode);
 			} else {
 				if(response.hasError()) {
-					return FileUploadResponseFactory.fail(response.getError(), responseCode);
+					return FileUploadResponseFactory.fail(fileUpload, response.getError(), responseCode);
 				} else if (response.hasWarning()) {
-					return FileUploadResponseFactory.fail(response.getWarning(), responseCode);
+					return FileUploadResponseFactory.fail(fileUpload, response.getWarning(), responseCode);
 				} else {
-					return FileUploadResponseFactory.fail("Unknown Error", responseCode);
+					return FileUploadResponseFactory.fail(fileUpload, "Unknown Error", responseCode);
 				}
 			}
 
 		}
 		catch (Exception e) {
-			return FileUploadResponseFactory.fail(e.getMessage(), 500, e);
+			return FileUploadResponseFactory.fail(fileUpload, e.getMessage(), 500, e);
 		}
 	}
 
-	void writePostBody(HttpPost post, FileUploadBuilderImpl builder) throws IOException {
-		if(builder.params.get("content") != null) {
+	void writePostBody(HttpPost post, FileUpload fileUpload) throws IOException {
+		if(fileUpload.getOContent().isPresent()) {
 			post.setHeader("Content-Type","application/x-www-form-urlencoded");
-			HttpEntity entity = new UrlEncodedFormEntity(getNameValuePairs(token, builder));
+
+			LinkedList<NameValuePair> list = new LinkedList<>();
+
+			list.add(new BasicNameValuePair("token",token));
+
+			addParts((key, value) -> {
+				list.add(new BasicNameValuePair(key, value));
+				return null;
+			}, fileUpload);
+
+			HttpEntity entity = new UrlEncodedFormEntity(list);
+
 			post.setEntity(entity);
-		} else if (builder.fileInputStream != null){
+		} else if (fileUpload.getOInputStreamSupplier().isPresent()){
 			post.setHeader("ContentType","multipart/form-data");
 			MultipartEntityBuilder multipartBuilder = MultipartEntityBuilder.create()
 				.addTextBody("token", token)
-				.addBinaryBody("file", builder.fileInputStream, ContentType.APPLICATION_OCTET_STREAM, "filename");
+				.addBinaryBody(
+					"file",
+					fileUpload
+						.getOInputStreamSupplier()
+						.get()
+						.get(),
+					ContentType.APPLICATION_OCTET_STREAM, "filename");
 
-			addTextBodies(multipartBuilder, builder);
+			addParts((key, value) -> {
+				multipartBuilder.addTextBody(key, value);
+				return null;
+			}, fileUpload);
 
 			post.setEntity(multipartBuilder.build());
 		} else {
@@ -95,25 +114,42 @@ class FileUploadRequestImpl implements FileUploadRequest {
 		}
 	}
 
-	static void addTextBodies(MultipartEntityBuilder multipartEntityBuilder, FileUploadBuilderImpl fileUploadBuilder) {
-		for(Map.Entry<String,String> entry : fileUploadBuilder.params.entrySet()) {
-			if(entry.getValue() != null)
-				multipartEntityBuilder.addTextBody(entry.getKey(), entry.getValue());
-		}
+	static void addParts(BiFunction<String,String,Void> partAdder, FileUpload fileUpload) {
+
+		fileUpload.getOFileName().ifPresent(fileName -> {
+			partAdder.apply("filename", fileName);
+		});
+
+		fileUpload.getOContent().ifPresent(content -> {
+			partAdder.apply("content", content);
+		});
+
+		fileUpload.getOFileType().ifPresent(fileType -> {
+			partAdder.apply("filetype", fileType);
+		});
+
+		fileUpload.getOInitialComment().ifPresent(initialComment -> {
+			partAdder.apply("initial_comment", initialComment);
+		});
+
+		fileUpload.getOTitle().ifPresent(title -> {
+			partAdder.apply("title", title);
+		});
+
+		String joinedChannelNames = joinChannelNames(fileUpload);
+
+		partAdder.apply("channels", joinedChannelNames);
 	}
 
-	static List<NameValuePair> getNameValuePairs(String token, FileUploadBuilderImpl fileUploadBuilder) throws IOException {
 
-		LinkedList<NameValuePair> list = new LinkedList<>();
 
-		list.add(new BasicNameValuePair("token",token));
-
-		for(Map.Entry<String,String> entry : fileUploadBuilder.params.entrySet()) {
-			if(entry.getValue() != null)
-				list.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-		}
-
-		return list;
+	private static String joinChannelNames(FileUpload fileUpload) {
+		return fileUpload
+			.getChannels().stream()
+			.map(Channel::getIdentifier)
+			.collect(Collectors.joining(","));
 	}
+
+
 
 }

@@ -1,21 +1,30 @@
 package org.gmjm.slack.core.file;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.function.Supplier;
 
+import org.gmjm.slack.api.common.Channel;
 import org.gmjm.slack.api.file.FileType;
+import org.gmjm.slack.api.file.FileUpload;
 import org.gmjm.slack.api.file.FileUploadBuilder;
 
 class FileUploadBuilderImpl implements FileUploadBuilder {
 
-	InputStream fileInputStream = null;
+	Supplier<InputStream> inputStreamSupplier = null;
 
-	Map<String,String> params = new HashMap<>();
+	private String fileType;
+	private Supplier<InputStream> InputStreamSupplier;
+	private String title;
+	private String fileName;
+	private String content;
+	private String initialComment;
+	private HashSet<Channel> channels = new HashSet<>();
 
 	@Override
-	public FileUploadBuilder setChannels(String... channels) {
-		params.put("channels",String.join(",", channels));
+	public FileUploadBuilder setChannels(Channel... channels) {
+		this.channels = new HashSet<Channel>(Arrays.asList(channels));
 		return this;
 	}
 
@@ -26,46 +35,70 @@ class FileUploadBuilderImpl implements FileUploadBuilder {
 
 	@Override
 	public FileUploadBuilder setContent(String content) {
-		params.put("content", content);
+		this.content = content;
 		return this;
 	}
 
 	@Override
-	public FileUploadBuilder setFile(InputStream fileInputStream) {
-		this.fileInputStream = fileInputStream;
+	public FileUploadBuilder setInputStreamSupplier(Supplier<InputStream> inputStreamSupplier) {
+		this.inputStreamSupplier = inputStreamSupplier;
 		return this;
 	}
 
 	@Override
 	public FileUploadBuilder setFilename(String filename) {
-		params.put("filename", filename);
+		this.fileName = filename;
 		return this;
 	}
 
 	@Override
-	public FileUploadBuilder setFiletype(FileType filetype) {
-		if(filetype != null) {
-			params.put("filetype", filetype.type);
-		}
+	public FileUploadBuilder setFiletype(FileType fileType) {
+		this.fileType = fileType != null ? fileType.type : null;
 		return this;
 	}
 
 	@Override
-	public FileUploadBuilder setFiletype(String filetype) {
-		params.put("filetype", filetype);
+	public FileUploadBuilder setFiletype(String fileType) {
+		this.fileType = fileType;
 		return this;
 	}
 
 	@Override
 	public FileUploadBuilder setInitialComment(String initialComment) {
-		params.put("initial_comment", initialComment);
+		this.initialComment = initialComment;
 		return this;
 	}
 
 	@Override
 	public FileUploadBuilder setTitle(String title) {
-		params.put("title", title);
+		this.title = title;
 		return this;
 	}
 
+	@Override
+	public FileUpload build() {
+		return new FileUploadImpl(
+			title,
+			fileType,
+			inputStreamSupplier,
+			fileName,
+			content,
+			initialComment,
+			channels);
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("FileUploadBuilderImpl{");
+		sb.append("inputStreamSupplier=").append(inputStreamSupplier);
+		sb.append(", fileType='").append(fileType).append('\'');
+		sb.append(", InputStreamSupplier=").append(InputStreamSupplier);
+		sb.append(", title='").append(title).append('\'');
+		sb.append(", fileName='").append(fileName).append('\'');
+		sb.append(", content='").append(content).append('\'');
+		sb.append(", initialComment='").append(initialComment).append('\'');
+		sb.append(", channels=").append(channels);
+		sb.append('}');
+		return sb.toString();
+	}
 }

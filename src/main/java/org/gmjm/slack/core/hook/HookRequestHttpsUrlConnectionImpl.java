@@ -47,6 +47,8 @@ class HookRequestHttpsUrlConnectionImpl implements HookRequest {
 
 			if(responseCode < 200 || responseCode > 299) {
 				return HookResponseFactory.fail(
+					slackHookUrl,
+					message,
 					con.getResponseMessage(),
 					con.getResponseCode(),
 					new RuntimeException(
@@ -58,10 +60,10 @@ class HookRequestHttpsUrlConnectionImpl implements HookRequest {
 			String response = IOUtils.toString(con.getInputStream());
 			con.disconnect();
 
-			return HookResponseFactory.success(response, responseCode);
+			return HookResponseFactory.success(slackHookUrl, message, response, responseCode);
 		}
 		catch (Exception e) {
-			return HookResponseFactory.fail(e.getMessage(), 500, e);
+			return HookResponseFactory.fail(slackHookUrl, message, e.getMessage(), 500, e);
 		}
 
 	}

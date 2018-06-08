@@ -4,36 +4,57 @@ import org.gmjm.slack.api.hook.HookResponse;
 
 class HookResponseFactory {
 
-	static HookResponse success(String message, int statusCode) {
-		return new HookResponseImpl(message, statusCode, HookResponse.Status.SUCCESS, null);
+	static HookResponse success(String webhookUrl, String sentMessage, String receivedMessage, int statusCode) {
+		return new HookResponseImpl(webhookUrl, sentMessage, receivedMessage, statusCode, HookResponse.Status.SUCCESS, null);
 	}
 
-	static HookResponse fail(String message, int statusCode, Throwable throwable) {
-		return new HookResponseImpl(message, statusCode, HookResponse.Status.FAILED, throwable);
+	static HookResponse fail(String webhookUrl, String sentMessage, String receivedMessage, int statusCode, Throwable throwable) {
+		return new HookResponseImpl(webhookUrl, sentMessage, receivedMessage, statusCode, HookResponse.Status.FAILED, throwable);
 	}
 
 	private static class HookResponseImpl implements HookResponse {
 
-		private String message;
+		String webhookUrl;
+		private String sentMessage;
+		private String receivedMessage;
 		private int statusCode;
 		private Status status;
 		private Throwable throwable;
 
 		public HookResponseImpl(
-			String message,
+			String webhookUrl,
+			String sentMessage,
+			String receivedMessage,
 			int statusCode,
 			Status status,
 			Throwable throwable
 		) {
-			this.message = message;
+			this.webhookUrl = webhookUrl;
+			this.sentMessage = sentMessage;
+			this.receivedMessage = receivedMessage;
 			this.statusCode = statusCode;
 			this.status = status;
 			this.throwable = throwable;
 		}
 
 		@Override
+		public String getWebhookUrl() {
+			return webhookUrl;
+		}
+
+		@Override
+		public String getSentMessage() {
+			return sentMessage;
+		}
+
+		@Override
+		public String getReceivedMessage() {
+			return receivedMessage;
+		}
+
+		@Override
 		public String getMessage() {
-			return message;
+			return receivedMessage;
 		}
 
 		@Override

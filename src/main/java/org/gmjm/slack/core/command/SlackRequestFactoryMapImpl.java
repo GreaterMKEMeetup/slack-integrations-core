@@ -1,8 +1,8 @@
-package org.gmjm.slack.core.model;
+package org.gmjm.slack.core.command;
 
 import java.util.Map;
 
-import org.gmjm.slack.api.model.SlackCommand;
+import org.gmjm.slack.api.command.SlackCommand;
 
 public class SlackRequestFactoryMapImpl implements SlackRequestFactory {
 
