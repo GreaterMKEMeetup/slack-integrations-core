@@ -28,6 +28,21 @@ class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 		return this;
 	}
 
+	@Override
+	public AttachmentBuilder setTitleLink(String link) {
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder setImageUrl(String imageUrl) {
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder setThumbUrl(String thumbUrl) {
+		return this;
+	}
+
 	/**
 	 * Sets text, defaulted to use markdown.
 	 *
@@ -41,6 +56,11 @@ class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 	@Override
 	public AttachmentBuilder setText(String text, boolean markdownEnabled) {
 		setField("text", text, markdownEnabled);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder setFallbackText(String fallbackText) {
 		return this;
 	}
 
@@ -102,6 +122,16 @@ class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 			jsonFields.put("fields", fields);
 		}
 		fields.add(((FieldBuilderJsonImpl) builder).getBackingMap());
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder setFooter(String footerText) {
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder setFooterIcon(String footerIconUrl) {
 		return this;
 	}
 

@@ -1,11 +1,16 @@
 package org.gmjm.slack.core.message;
 
+import static junit.framework.TestCase.assertTrue;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import org.gmjm.slack.api.hook.AsyncHookRequest;
 import org.gmjm.slack.api.hook.HookRequest;
 import org.gmjm.slack.api.hook.HookResponse;
+import org.gmjm.slack.api.message.SlackMessageFactory;
 import org.gmjm.slack.core.hook.HttpsHookRequestFactory;
 import org.junit.Test;
-
-import static junit.framework.TestCase.assertTrue;
 
 public class SendMessageTest {
 
@@ -16,7 +21,9 @@ public class SendMessageTest {
     @Test
     public void testSendMessage() throws Throwable {
 
-        String message = new SlackMessageBuilderJsonImpl()
+        SlackMessageFactory messageFactory = new JsonMessageFactory();
+
+        String message = messageFactory.createMessageBuilder()
 
             .setText("Integration test for version: " + version)
             .setResponseType("ephemeral")
@@ -24,26 +31,26 @@ public class SendMessageTest {
             .setIconUrl("https://slack-files2.s3-us-west-2.amazonaws.com/bot_icons/2016-08-31/74918376646_48.png")
 
             .addAttachment(
-                new AttachmentBuilderJsonImpl()
+                messageFactory.createAttachmentBuilder()
                     .setTitle("Update Catalan translation to e38cb41", "http://example.com/mike/")
                     .setText("Modified *18* files"))
 
             .addAttachment(
-                new AttachmentBuilderJsonImpl()
+                messageFactory.createAttachmentBuilder()
                     .setTitle("mmk", "http://example.com/mike/")
                     .setText("Modified *13* files"))
 
             .addAttachment(
-                new AttachmentBuilderJsonImpl()
+                messageFactory.createAttachmentBuilder()
                     .setTitle("nowerk", "http://example.com/mike/")
                     .setText("Modified *5* files")
                     .addField(
-                        new FieldBuilderJsonImpl()
+                        messageFactory.createFieldBuilder()
                             .setShort(true)
                             .setTitle("Example Field 1")
                             .setValue("Value 1"))
                     .addField(
-                        new FieldBuilderJsonImpl()
+                        messageFactory.createFieldBuilder()
                             .setShort(true)
                             .setTitle("Example Field 2")
                             .setValue("Value 2 extra long value")))
@@ -58,6 +65,65 @@ public class SendMessageTest {
         }
 
         assertTrue(HookResponse.Status.SUCCESS.equals(response.getStatus()));
+
+    }
+
+    @Test
+    public void testSendMessageAsync() throws Throwable {
+
+        SlackMessageFactory messageFactory = new JsonMessageFactory();
+
+        String message = messageFactory.createMessageBuilder()
+
+            .setText("Integration test for version: " + version)
+            .setResponseType("ephemeral")
+            .setChannel(testChannel)
+            .setIconUrl("https://slack-files2.s3-us-west-2.amazonaws.com/bot_icons/2016-08-31/74918376646_48.png")
+
+            .addAttachment(
+                messageFactory.createAttachmentBuilder()
+                    .setTitle("Update Catalan translation to e38cb41", "http://example.com/mike/")
+                    .setText("Modified *18* files"))
+
+            .addAttachment(
+                messageFactory.createAttachmentBuilder()
+                    .setTitle("mmk", "http://example.com/mike/")
+                    .setText("Modified *13* files"))
+
+            .addAttachment(
+                messageFactory.createAttachmentBuilder()
+                    .setTitle("nowerk", "http://example.com/mike/")
+                    .setText("Modified *5* files")
+                    .addField(
+                        messageFactory.createFieldBuilder()
+                            .setShort(true)
+                            .setTitle("Example Field 1")
+                            .setValue("Value 1"))
+                    .addField(
+                        messageFactory.createFieldBuilder()
+                            .setShort(true)
+                            .setTitle("Example Field 2")
+                            .setValue("Value 2 extra long value")))
+            .build();
+
+        AsyncHookRequest asyncHookRequest = new HttpsHookRequestFactory().createAsyncHookRequest(url);
+
+        CompletableFuture<HookResponse> futureResponse = asyncHookRequest.send(message);
+
+        final CountDownLatch responeCountdownLatch = new CountDownLatch(1);
+
+        futureResponse
+            .thenApply(hookResponse -> hookResponse.getStatus())
+            .whenComplete((responseStatus, throwable) -> {
+                assertTrue(HookResponse.Status.SUCCESS.equals(responseStatus));
+                System.out.println("Success!");
+                responeCountdownLatch.countDown();
+            });
+
+        System.out.println("Waiting!");
+
+        assertTrue(responeCountdownLatch.await(5,TimeUnit.SECONDS));
+
 
     }
 }
