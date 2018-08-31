@@ -29,17 +29,20 @@ class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 	}
 
 	@Override
-	public AttachmentBuilder setTitleLink(String link) {
+	public AttachmentBuilder setTitleLink(String titleLink) {
+		setField("title_link", titleLink, false);
 		return this;
 	}
 
 	@Override
 	public AttachmentBuilder setImageUrl(String imageUrl) {
+		setField("image_url", imageUrl, false);
 		return this;
 	}
 
 	@Override
 	public AttachmentBuilder setThumbUrl(String thumbUrl) {
+		setField("thumb_url", thumbUrl, false);
 		return this;
 	}
 
@@ -61,6 +64,7 @@ class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 
 	@Override
 	public AttachmentBuilder setFallbackText(String fallbackText) {
+		setField("fallback", fallbackText, false);
 		return this;
 	}
 
@@ -127,11 +131,13 @@ class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 
 	@Override
 	public AttachmentBuilder setFooter(String footerText) {
+		setField("footer", footerText, false);
 		return this;
 	}
 
 	@Override
 	public AttachmentBuilder setFooterIcon(String footerIconUrl) {
+		setField("footer_icon", footerIconUrl, false);
 		return this;
 	}
 

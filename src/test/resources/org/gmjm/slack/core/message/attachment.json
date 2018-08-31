@@ -3,7 +3,25 @@
 		"text",
 		"title"
 	],
-	"title_link" : "http://example.com/mike/",
-	"text" : "Modified *18* files",
-	"title" : "Update Catalan translation to e38cb41"
+	"fallback" : "Required plain-text summary of the attachment.",
+	"color" : "#2eb886",
+	"pretext" : "Optional text that appears above the attachment block",
+	"author_name" : "Bobby Tables",
+	"author_link" : "http://flickr.com/bobby/",
+	"author_icon" : "http://flickr.com/icons/bobby.jpg",
+	"title" : "Slack API Documentation",
+	"title_link" : "https://api.slack.com/",
+	"text" : "Optional text that appears within the attachment",
+	"image_url" : "http://my-website.com/path/to/image.jp",
+	"thumb_url" : "http://example.com/path/to/thumb.png",
+	"footer" : "Slack API",
+	"footer_icon" : "https://platform.slack-edge.com/img/default_application_icon.png",
+	"ts" : 123456789,
+	"fields" : [
+		{
+			"short" : true,
+			"title" : "Test Field",
+			"value" : "Field Value"
+		}
+	]
 }

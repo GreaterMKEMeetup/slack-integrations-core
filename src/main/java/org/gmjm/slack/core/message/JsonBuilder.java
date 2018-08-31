@@ -1,19 +1,18 @@
 package org.gmjm.slack.core.message;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 class JsonBuilder implements BuilderBackingMap {
 
-	protected Map<String, Object> jsonFields = new HashMap<>();
+	protected Map<String, Object> jsonFields = new LinkedHashMap<>();
 
 	DefaultPrettyPrinter.Indenter indenter = new DefaultIndenter("	", DefaultIndenter.SYS_LF);
 	DefaultPrettyPrinter printer = new DefaultPrettyPrinter()
