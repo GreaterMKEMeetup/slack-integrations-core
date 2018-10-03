@@ -1,11 +1,10 @@
 package org.gmjm.slack.core.message;
 
-import java.io.IOException;
+import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class FieldTest
 {
@@ -17,7 +16,8 @@ public class FieldTest
 			.setShort(true)
 			.setTitle("Test Field")
 			.setValue("Field Value")
-			.build();
+			.build()
+			.toString();
 
 		assertEquals(
 			IOUtils.toString(this.getClass().getResourceAsStream("field.json")),

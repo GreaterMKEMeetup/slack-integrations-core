@@ -1,0 +1,6 @@
+{
+	"name" : "Choose a channel.",
+	"style" : "primary",
+	"text" : "Pick from this list.",
+	"data_source" : "channels"
+}

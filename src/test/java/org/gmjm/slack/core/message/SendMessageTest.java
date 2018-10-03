@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import org.gmjm.slack.api.hook.AsyncHookRequest;
 import org.gmjm.slack.api.hook.HookRequest;
 import org.gmjm.slack.api.hook.HookResponse;
+import org.gmjm.slack.api.message.ActionButton;
+import org.gmjm.slack.api.message.ActionConfirm;
 import org.gmjm.slack.api.message.SlackMessageFactory;
 import org.gmjm.slack.core.hook.HttpsHookRequestFactory;
 import org.junit.Test;
@@ -44,6 +46,7 @@ public class SendMessageTest {
                 messageFactory.createAttachmentBuilder()
                     .setTitle("nowerk", "http://example.com/mike/")
                     .setText("Modified *5* files")
+
                     .addField(
                         messageFactory.createFieldBuilder()
                             .setShort(true)
@@ -54,7 +57,52 @@ public class SendMessageTest {
                             .setShort(true)
                             .setTitle("Example Field 2")
                             .setValue("Value 2 extra long value")))
-            .build();
+            .build()
+            .toString();
+
+        HookRequest hookRequest = new HttpsHookRequestFactory().createHookRequest(url);
+
+        HookResponse response = hookRequest.send(message);
+
+        if(response.getThrowable() != null) {
+            throw response.getThrowable();
+        }
+
+        assertTrue(HookResponse.Status.SUCCESS.equals(response.getStatus()));
+
+    }
+
+    @Test
+    public void testConfirm() throws Throwable {
+
+        SlackMessageFactory messageFactory = new JsonMessageFactory();
+
+        String message = messageFactory.createMessageBuilder()
+
+            .setText("Would you like to play a game?")
+            .setChannel(testChannel)
+            .setUsername("WOPR")
+            .setIconEmoji("hamburger")
+            .addAttachment(
+                messageFactory.createAttachmentBuilder()
+                    .setText("Choose a game to play")
+                    .setFallbackText("You are unable to choose a game")
+                    .setCallbackId("wopr_game")
+                    .setColor("#3AA3E3")
+                    .setAttachmentType("default")
+                    .addButton(
+                        new ActionButton("game", "Chess", "chess"))
+                    .addButton(
+                        new ActionButton("game", "Falken's Maze", "maze"))
+                    .addButton(
+                        new ActionButton("game", "Thermonuclear War", "war",
+                            new ActionConfirm(
+                                "Are you sure?",
+                                "Wouldn't you prefer a good game of chess?",
+                                "Yes",
+                                "No"))))
+            .build()
+            .toString();
 
         HookRequest hookRequest = new HttpsHookRequestFactory().createHookRequest(url);
 
@@ -104,7 +152,8 @@ public class SendMessageTest {
                             .setShort(true)
                             .setTitle("Example Field 2")
                             .setValue("Value 2 extra long value")))
-            .build();
+            .build()
+            .toString();
 
         AsyncHookRequest asyncHookRequest = new HttpsHookRequestFactory().createAsyncHookRequest(url);
 

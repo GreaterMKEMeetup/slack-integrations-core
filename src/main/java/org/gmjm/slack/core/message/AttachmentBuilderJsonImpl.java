@@ -1,15 +1,37 @@
 package org.gmjm.slack.core.message;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
+import org.gmjm.slack.api.message.ActionBuilder;
+import org.gmjm.slack.api.message.Attachment;
 import org.gmjm.slack.api.message.AttachmentBuilder;
+import org.gmjm.slack.api.message.Button;
 import org.gmjm.slack.api.message.FieldBuilder;
 
 class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder {
 
-	List<Map<String, Object>> fields = null;
+	private static class AttachmentMap extends LinkedHashMap<String, Object> implements Attachment {
+
+		public AttachmentMap(Map<? extends String, ?> m) {
+			super(m);
+		}
+
+		private static final JsonWriter writer = new JsonWriter();
+
+		@Override
+		public String toString() {
+			return writer.toJson(this);
+		}
+	}
+
+	List<FieldBuilder> fields = new LinkedList<>();
+	List<ActionBuilder> actions = new LinkedList<>();
 
 	public AttachmentBuilderJsonImpl() {
 		super();
@@ -120,12 +142,27 @@ class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 	}
 
 	@Override
-	public AttachmentBuilder addField(FieldBuilder builder) {
-		if(fields == null) {
-			fields = new LinkedList<>();
-			jsonFields.put("fields", fields);
-		}
-		fields.add(((FieldBuilderJsonImpl) builder).getBackingMap());
+	public AttachmentBuilder addField(FieldBuilder fieldBuilder) {
+		fields.add(fieldBuilder);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder addFields(FieldBuilder... fieldBuilders) {
+		Collections.addAll(fields, fieldBuilders);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder addFields(Collection<FieldBuilder> fieldBuilders) {
+		fields.addAll(fieldBuilders);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder setFields(Collection<FieldBuilder> fieldBuilders) {
+		fields = new LinkedList<>();
+		fields.addAll(fieldBuilders);
 		return this;
 	}
 
@@ -142,9 +179,75 @@ class AttachmentBuilderJsonImpl extends JsonBuilder implements AttachmentBuilder
 	}
 
 	@Override
-	public String build() {
+	public AttachmentBuilder setAttachmentType(String attachmentType) {
+		setField("attachment_type", attachmentType);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder addAction(ActionBuilder actionBuilder) {
+		actions.add(actionBuilder);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder addActions(ActionBuilder... actionBuilders) {
+		Collections.addAll(actions, actionBuilders);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder addActions(Collection<ActionBuilder> actionBuilders) {
+		actions.addAll(actionBuilders);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder addButton(Button button) {
+		actions.add(new ActionBuilderJsonImpl(button));
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder setActions(Collection<ActionBuilder> actionBuilders) {
+		actions = new LinkedList<>();
+		actions.addAll(actionBuilders);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder setAttribute(String key, Object value) {
+		setField(key, value);
+		return this;
+	}
+
+	@Override
+	public AttachmentBuilder setCallbackId(String callbackId) {
+		setField("callback_id", callbackId);
+		return this;
+	}
+
+	@Override
+	public Attachment build() {
+
+		AttachmentMap attachmentMap = new AttachmentMap(jsonFields);
+
 		try {
-			return super.buildJsonString();
+			if(fields.size() > 0) {
+				attachmentMap.put(
+						"fields",
+						fields.stream()
+							.map(FieldBuilder::build)
+							.collect(toList()));
+			}
+			if(actions.size() > 0) {
+				attachmentMap.put(
+						"actions",
+						actions.stream()
+								.map(ActionBuilder::build)
+								.collect(toList()));
+			}
+			return attachmentMap;
 		}
 		catch (Exception e) {
 			throw new RuntimeException("Failed to build JSON string.", e);

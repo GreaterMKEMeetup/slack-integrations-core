@@ -1,4 +1,8 @@
 {
+	"text" : "So many commits!",
+	"channel" : "#engineering",
+	"icon_emoji" : ":smiley:",
+	"response_type" : "ephemeral",
 	"icon_url" : "https://picsum.photos/200/300",
 	"attachments" : [
 		{
@@ -6,27 +10,27 @@
 				"text",
 				"title"
 			],
+			"title" : "Update Catalan translation to e38cb41",
 			"title_link" : "http://example.com/mike/",
-			"text" : "Modified *18* files",
-			"title" : "Update Catalan translation to e38cb41"
+			"text" : "Modified *18* files"
 		},
 		{
 			"mrkdwn_in" : [
 				"text",
 				"title"
 			],
+			"title" : "mmk",
 			"title_link" : "http://example.com/mike/",
-			"text" : "Modified *13* files",
-			"title" : "mmk"
+			"text" : "Modified *13* files"
 		},
 		{
 			"mrkdwn_in" : [
 				"text",
 				"title"
 			],
+			"title" : "nowerk",
 			"title_link" : "http://example.com/mike/",
 			"text" : "Modified *5* files",
-			"title" : "nowerk",
 			"fields" : [
 				{
 					"short" : true,
@@ -40,9 +44,5 @@
 				}
 			]
 		}
-	],
-	"icon_emoji" : ":smiley:",
-	"channel" : "#engineering",
-	"response_type" : "ephemeral",
-	"text" : "So many commits!"
+	]
 }

@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
+import org.gmjm.slack.api.message.ActionBuilder.DataSource;
+import org.gmjm.slack.api.message.ActionBuilder.Style;
 import org.junit.Test;
 
 public class AttatchmentTest
@@ -31,11 +33,16 @@ public class AttatchmentTest
 				.addField(new FieldBuilderJsonImpl()
 						.setShort(true)
 						.setTitle("Test Field")
-						.setValue("Field Value"));
+						.setValue("Field Value"))
+				.addAction(new ActionBuilderJsonImpl()
+						.setName("Choose a channel.")
+						.setStyle(Style.PRIMARY)
+						.setText("Pick from this list.")
+						.setDataSource(DataSource.CHANNELS));
 
 		assertEquals(
-			IOUtils.toString(this.getClass().getResourceAsStream("attachment.json")),
-			attachmentBuilder.buildJsonString());
+				IOUtils.toString(this.getClass().getResourceAsStream("attachment.json")),
+				attachmentBuilder.build().toString());
 	}
 
 }

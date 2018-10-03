@@ -53,6 +53,10 @@ class JsonBuilder implements BuilderBackingMap {
 		jsonFields.put(fieldName, value);
 	}
 
+	protected void setField(String fieldName, Object value) {
+		jsonFields.put(fieldName, value);
+	}
+
 	@Override
 	public Map<String, Object> getBackingMap() {
 		return jsonFields;
